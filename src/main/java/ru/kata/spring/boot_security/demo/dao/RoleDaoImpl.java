@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class RoleDaoImpl implements RoleDao {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     RoleDaoImpl(EntityManager entityManager) {

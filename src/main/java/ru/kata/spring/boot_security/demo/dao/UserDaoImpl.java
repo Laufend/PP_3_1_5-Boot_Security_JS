@@ -7,21 +7,26 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
+
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public void addUser(User user) {
         entityManager.persist(user);
     }
+
     @Override
     public void removeUser(int id) {
         entityManager.remove(getUser(id));
     }
+
     @Override
     public User getUser(int id) {
         return entityManager.find(User.class, id);
     }
+
     public User getUser(String login) {
         List<User> list = entityManager.createQuery("select distinct user from User user join fetch user.authorities roles where user.username=?1", User.class)
                 .setParameter(1, login).getResultList();
@@ -33,6 +38,7 @@ public class UserDaoImpl implements UserDao{
     public void updateUser(User user) {
         entityManager.merge(user);
     }
+
     @Override
     public List<User> getUserList() {
         return entityManager

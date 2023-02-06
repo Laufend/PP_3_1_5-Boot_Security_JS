@@ -84,7 +84,6 @@ function add_user_form() {
             <div class="form-group">
                 <label for="authorities">Roles</label>
                 <select multiple class="form-control" name="authorities" id="authorities">
-                    <option value="ROLE_GUEST">GUEST</option>
                     <option value="ROLE_USER" selected>USER</option>
                     <option value="ROLE_ADMIN">ADMIN</option>
                 </select>

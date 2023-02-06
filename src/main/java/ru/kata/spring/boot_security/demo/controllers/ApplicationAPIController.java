@@ -2,7 +2,13 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -12,11 +18,14 @@ import java.util.List;
 @RequestMapping(value = "/api")
 @CrossOrigin
 public class ApplicationAPIController {
-    private UserService userService;
+
+    private final UserService userService;
+
     @Autowired
     ApplicationAPIController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping(value = "/get_login")
     public User getCurrentUser() {
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
@@ -38,6 +47,7 @@ public class ApplicationAPIController {
         userService.addUser(user);
         return "Success";
     }
+
     @GetMapping(value = "/user/{id}")
     public User getUser(@PathVariable int id) {
         return userService.getUser(id);
@@ -50,7 +60,7 @@ public class ApplicationAPIController {
     }
 
     @GetMapping(value = "/edit_user/{id}")
-    public String editUser(@PathVariable int id, @ModelAttribute User user) {
+    public String editUser(@ModelAttribute User user) {
         userService.updateUser(user);
         return "Success";
     }

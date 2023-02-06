@@ -16,9 +16,9 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService{
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
 
     private PasswordEncoder passwordEncoder;
 
@@ -55,21 +55,21 @@ public class UserServiceImpl implements UserService{
         userDao.removeUser(id);
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     @Override
     public User getUser(int id) {
         return userDao.getUser(id);
     }
 
-        @Override
-        @Transactional
-        public void updateUser(User updated) {
-            updated.setPassword(passwordEncoder.encode(updated.getPassword()));
-            checkRolesForUser(updated);
-            userDao.updateUser(updated);
-        }
-
     @Transactional
+    @Override
+    public void updateUser(User updated) {
+        updated.setPassword(passwordEncoder.encode(updated.getPassword()));
+        checkRolesForUser(updated);
+        userDao.updateUser(updated);
+    }
+
+    @Transactional(readOnly=true)
     @Override
     public List<User> getUserList() {
         return userDao.getUserList();

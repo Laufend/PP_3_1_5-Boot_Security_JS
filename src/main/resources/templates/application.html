@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,7 +10,7 @@
 <body class="bg-light">
     <div class="api-context d-none" id="login_page">
         <div class="centered">
-            <h3>Please, sign in </h3>
+            <h3>Please sign in </h3>
             <form name="login_form" id="login_form" method="post" action="#" onsubmit="set_login(); return false;">
                 <input type="text" name="username" placeholder="Login" id="username">
                 <input type="password" name="password" placeholder="Password" id="password">
@@ -60,7 +59,6 @@
                                 <div class="form-group">
                                     <label for="authorities">Roles</label>
                                     <select multiple class="form-control" name="authorities">
-                                        <option value="ROLE_GUEST" >GUEST</option>
                                         <option value="ROLE_USER" selected>USER</option>
                                         <option value="ROLE_ADMIN">ADMIN</option>
                                     </select>
@@ -115,7 +113,6 @@
                                 <div class="form-group">
                                     <label for="authorities">Roles</label>
                                     <select multiple class="form-control" disabled name="authorities" id="authorities">
-                                        <option value="ROLE_GUEST" >GUEST</option>
                                         <option value="ROLE_USER" selected>USER</option>
                                         <option value="ROLE_ADMIN">ADMIN</option>
                                     </select>

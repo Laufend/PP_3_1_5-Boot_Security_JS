@@ -14,13 +14,17 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserDetailsService userDetailsService;
+
+    private final UserDetailsService userDetailsService;
+
     private final SuccessUserHandler successUserHandler;
+
     @Autowired
     public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
         this.userDetailsService = userDetailsService;
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.userDetailsService(userDetailsService);
@@ -42,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout/**" )).permitAll();
 
     }
+
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();

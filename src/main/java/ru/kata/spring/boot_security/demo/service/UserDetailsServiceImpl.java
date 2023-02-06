@@ -8,21 +8,21 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.models.User;
 
+import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private UserDao userDao;
+
+    private final UserDao userDao;
+
     @Autowired
     UserDetailsServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
+
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.getUser(username);
-        if (user != null) {
-            return user;
-        } else {
-           throw new BadCredentialsException("User is not defined");
-        }
+        return Optional.ofNullable(userDao.getUser(username)).orElseThrow(() -> new BadCredentialsException("User is not defined"));
     }
+
 }
