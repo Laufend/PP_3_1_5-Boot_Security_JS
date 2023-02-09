@@ -16,13 +16,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserDao userDao;
 
     @Autowired
-    UserDetailsServiceImpl(UserDao userDao) {
+    public UserDetailsServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return Optional.ofNullable(userDao.getUser(username)).orElseThrow(() -> new BadCredentialsException("User is not defined"));
+        return Optional.ofNullable(userDao.getUserByName(username)).orElseThrow(() -> new BadCredentialsException("User is not defined"));
     }
 
 }

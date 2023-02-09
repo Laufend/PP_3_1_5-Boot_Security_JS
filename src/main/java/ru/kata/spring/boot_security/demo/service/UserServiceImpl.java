@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
 
@@ -28,9 +28,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Autowired
-    UserServiceImpl(UserDao userDao, RoleDao roleDao) {
+    UserServiceImpl(UserDao userDao, RoleDao roleDao1) {
         this.userDao = userDao;
-        this.roleDao = roleDao;
+        this.roleDao = roleDao1;
     }
 
     private void checkRolesForUser(User user) {
@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService{
 
     @Transactional(readOnly=true)
     @Override
-    public User getUser(int id) {
-        return userDao.getUser(id);
+    public User getUserById(int id) {
+        return userDao.getUserById(id);
     }
 
     @Transactional
@@ -74,4 +74,11 @@ public class UserServiceImpl implements UserService{
     public List<User> getUserList() {
         return userDao.getUserList();
     }
+
+    @Transactional(readOnly=true)
+    @Override
+    public User getUserByName(String name) {
+        return userDao.getUserByName(name);
+    }
+
 }

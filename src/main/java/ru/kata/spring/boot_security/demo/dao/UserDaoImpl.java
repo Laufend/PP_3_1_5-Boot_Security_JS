@@ -19,17 +19,18 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void removeUser(int id) {
-        entityManager.remove(getUser(id));
+        entityManager.remove(getUserById(id));
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUserById(int id) {
         return entityManager.find(User.class, id);
     }
 
-    public User getUser(String login) {
+    @Override
+    public User getUserByName(String name) {
         List<User> list = entityManager.createQuery("select distinct user from User user join fetch user.authorities roles where user.username=?1", User.class)
-                .setParameter(1, login).getResultList();
+                .setParameter(1, name).getResultList();
         System.out.println(list);
         return list.size() > 0 ? list.get(0) : null;
     }

@@ -1,21 +1,18 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping("/api")
 @CrossOrigin
 public class ApplicationAPIController {
 
@@ -26,7 +23,7 @@ public class ApplicationAPIController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/get_login")
+    @GetMapping("/get_login")
     public User getCurrentUser() {
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -37,32 +34,33 @@ public class ApplicationAPIController {
         return new User();
     }
 
-    @GetMapping(value = "/get_users_table")
-    public List<User> getUsersTable() {
-        return userService.getUserList();
+    @GetMapping("/get_users_table")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> response = userService.getUserList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/add_user")
-    public String addUser(@ModelAttribute User user) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getById(@PathVariable("id") int id) {
+        User response = userService.getUserById(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/add_user")
+    public ResponseEntity<HttpStatus> addUser(@ModelAttribute User user) {
         userService.addUser(user);
-        return "Success";
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/user/{id}")
-    public User getUser(@PathVariable int id) {
-        return userService.getUser(id);
-    }
-
-    @GetMapping(value = "/delete_user/{id}")
-    public String deleteUser(@PathVariable int id) {
-        userService.removeUser(id);
-        return "Success";
-    }
-
-    @GetMapping(value = "/edit_user/{id}")
-    public String editUser(@ModelAttribute User user) {
+    @PutMapping("/edit_user/{id}")
+    public ResponseEntity<HttpStatus> editUser(@ModelAttribute User user) {
         userService.updateUser(user);
-        return "Success";
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+    @DeleteMapping("/delete_user/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
+        userService.removeUser(id);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 }
